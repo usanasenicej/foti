@@ -6,9 +6,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { formUrlQuery } from "@/lib/utils";
 
-export const Pagination = ({ page, totalPages }: PaginationProps) => {
+export const Pagination = ({
+  page,
+  totalPages,
+}: PaginationProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams()!;
+  const searchParams = useSearchParams();
 
   const handleNavigation = (type: "prev" | "next") => {
     const pageNumber = type === "prev" ? page - 1 : page + 1;
@@ -23,40 +26,67 @@ export const Pagination = ({ page, totalPages }: PaginationProps) => {
   };
 
   return (
-    <div className="flex justify-between gap-3">
+    <div
+      className="
+        flex items-center justify-between
+        rounded-2xl border border-gray-100
+        bg-white px-4 py-3
+        shadow-sm
+      "
+    >
+      {/* Previous */}
       <Button
-        size="lg"
-        variant="ghost"
-        className="p-0 hover:bg-transparent"
+        variant="outline"
+        size="sm"
         onClick={() => handleNavigation("prev")}
-        disabled={Number(page) <= 1}
+        disabled={page <= 1}
+        className="
+          gap-2 rounded-xl
+          transition-all duration-300
+          disabled:opacity-40
+        "
       >
         <Image
           src="/icons/arrow-left.svg"
-          alt="arrow"
-          width={20}
-          height={20}
-          className="mr-2"
+          alt="Previous"
+          width={16}
+          height={16}
         />
-        Prev
+        Previous
       </Button>
-      <p className="text-14 flex items-center px-2">
-        {page} / {totalPages}
-      </p>
+
+      {/* Page Info */}
+      <div className="flex flex-col items-center">
+        <span className="text-xs text-gray-500">
+          Current Page
+        </span>
+
+        <span className="text-lg font-bold text-gray-900">
+          {page}
+          <span className="mx-1 text-gray-400">/</span>
+          {totalPages}
+        </span>
+      </div>
+
+      {/* Next */}
       <Button
-        size="lg"
-        variant="ghost"
-        className="p-0 hover:bg-transparent"
+        variant="outline"
+        size="sm"
         onClick={() => handleNavigation("next")}
-        disabled={Number(page) >= totalPages}
+        disabled={page >= totalPages}
+        className="
+          gap-2 rounded-xl
+          transition-all duration-300
+          disabled:opacity-40
+        "
       >
         Next
         <Image
           src="/icons/arrow-left.svg"
-          alt="arrow"
-          width={20}
-          height={20}
-          className="ml-2 -scale-x-100"
+          alt="Next"
+          width={16}
+          height={16}
+          className="-scale-x-100"
         />
       </Button>
     </div>
